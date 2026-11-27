@@ -1,6 +1,10 @@
-import audioop_lts
 import sys
-sys.modules['audioop'] = audioop_lts
+
+try:
+    import audioop  # noqa: F401  (stdlib on Python <= 3.12)
+except ModuleNotFoundError:
+    import audioop_lts  # Python 3.13+
+    sys.modules['audioop'] = audioop_lts
 
 import discord
 from discord.ext import commands
