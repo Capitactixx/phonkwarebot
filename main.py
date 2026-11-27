@@ -1,4 +1,7 @@
+import audioop_lts
 import sys
+sys.modules['audioop'] = audioop_lts
+
 import discord
 from discord.ext import commands
 import os
@@ -15,17 +18,21 @@ load_dotenv()
 EMBED_COLOR = 0xE0508A
 
 TOKEN = os.getenv("TOKEN")
+GUILD_ID = os.getenv("GUILD_ID")
+
 if not TOKEN:
-    print("❌ ERROR: TOKEN not found in .env", flush=True)
+    print("❌ ERROR: TOKEN not found", flush=True)
     sys.exit(1)
 
 print(f"✅ Token loaded ({TOKEN[:10]}...)", flush=True)
 print(f"✅ Python {sys.version}", flush=True)
 print(f"✅ Py-cord {discord.__version__}", flush=True)
+print(f"✅ Guild ID: {GUILD_ID}", flush=True)
 
 bot = commands.Bot(
     command_prefix="!",
     intents=discord.Intents.all(),
+    debug_guilds=[int(GUILD_ID)] if GUILD_ID else None,
     activity=discord.Activity(
         type=discord.ActivityType.watching,
         name="Phonkware"
